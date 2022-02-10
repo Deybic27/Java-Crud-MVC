@@ -44,10 +44,14 @@ public class Controlador implements ActionListener{
             listar(vista.jTable1);
         }
         if(e.getSource() == vista.btnGuardar){
-            agregar();
-            limpiarTabla();
-            listar(vista.jTable1);
-            limpiarCampos();
+            if (validarCamposVacios()) {
+                agregar();
+                limpiarTabla();
+                listar(vista.jTable1);
+                limpiarCampos();
+            }else{
+                JOptionPane.showMessageDialog(vista, "Debe diligenciar los campos obligatorios");
+            }
         }
         if (e.getSource() == vista.btnEditar) {
             editar();
@@ -56,10 +60,14 @@ public class Controlador implements ActionListener{
             if (vista.txtId.getText().equals("")) {
                 JOptionPane.showMessageDialog(vista, "Debe seleccionar un usuario");
             }else{
-                actualizar();
-                limpiarTabla();
-                listar(vista.jTable1);
-                limpiarCampos();
+                if(validarCamposVacios()){
+                    actualizar();
+                    limpiarTabla();
+                    listar(vista.jTable1);
+                    limpiarCampos();
+                }else{
+                    JOptionPane.showMessageDialog(vista, "Debe diligenciar los campos obligatorios");
+                }
             }
             
         }
@@ -108,6 +116,16 @@ public class Controlador implements ActionListener{
         vista.txtNombre.setText("");
         vista.txtEmail.setText("");
         vista.txtTelefono.setText("");
+    }
+    
+    private boolean validarCamposVacios(){
+        if(vista.txtNombre.getText().equals("") ||
+            vista.txtEmail.getText().equals("") ||
+            vista.txtTelefono.getText().equals("")){
+            return false;
+        }else{
+            return true;
+        }
     }
     
     void limpiarTabla(){
